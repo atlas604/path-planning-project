@@ -338,33 +338,34 @@ int main() {
                 {
                   lane = lane - 1;
                 }
-              }
-              else if (lane == 1)
-              {
-                bool right_lane = true;
-                for(int i=0; i < sensor_fusion.size(); i++)
+                else
                 {
-                  // check right lane
-                  float d = sensor_fusion[i][6];
-                  if(d < (2+4*(lane+1)+2) && d > (2+4*(lane+1)-2))
+                  bool right_lane = true;
+                  for(int j=0; j < sensor_fusion.size(); j++)
                   {
-                    double vx = sensor_fusion[i][3];
-                    double vy = sensor_fusion[i][4];
-                    double check_speed = sqrt(vx*vx*vy*vy);
-                    double check_car_s = sensor_fusion[i][5];
-
-                    // check_car_s+=((double)prev_size*.02*check_speed);
-                    if((check_car_s-car_s) < 20 && (check_car_s-car_s) > -20)
+                    // check right lane
+                    float d = sensor_fusion[j][6];
+                    if(d < (2+4*(lane+1)+2) && d > (2+4*(lane+1)-2))
                     {
-                      right_lane = false;
+                      double vx = sensor_fusion[j][3];
+                      double vy = sensor_fusion[j][4];
+                      double check_speed = sqrt(vx*vx*vy*vy);
+                      double check_car_s = sensor_fusion[j][5];
+
+                      // check_car_s+=((double)prev_size*.02*check_speed);
+                      if((check_car_s-car_s) < 20 && (check_car_s-car_s) > -20)
+                      {
+                        right_lane = false;
+                      }
                     }
                   }
-                }
-                if(right_lane)
-                {
-                  lane = lane + 1;
+                  if(right_lane)
+                  {
+                    lane = lane + 1;
+                  }
                 }
               }
+
               else if (lane == 2)
               {
                 bool left_lane = true;
